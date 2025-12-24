@@ -1,1 +1,77 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Connexion — Little Bean</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/app.css">
+</head>
+<body>
+  <div class="login-container">
+    <div class="login-box">
+      <div class="login-header">
+        <h1>Connexion</h1>
+        <p>Choisissez votre type de compte</p>
+      </div>
+      
+      <div class="user-type-selector">
+        <button class="user-type-btn" data-type="client">Client</button>
+        <button class="user-type-btn active" data-type="employe">Employé</button>
+        <button class="user-type-btn" data-type="employeur">Employeur</button>
+      </div>
+
+      <div id="error-message" class="error-message"></div>
+
+      <!-- Formulaire Client -->
+      <form id="client-form" class="login-form">
+        <div class="form-group">
+          <label>Email</label>
+          <input type="email" id="client-email" required placeholder="votre@email.com">
+        </div>
+        <div class="form-group">
+          <label>Mot de passe</label>
+          <input type="password" id="client-password" required placeholder="••••••••">
+        </div>
+        <button type="submit" class="btn" style="width: 100%;">Se connecter (Client)</button>
+      </form>
+
+      <!-- Formulaire Employé -->
+      <form id="employe-form" class="login-form">
+        <div class="form-group">
+          <label>Email</label>
+          <input type="email" id="employe-email" required placeholder="employe@exemple.com">
+        </div>
+        <div class="form-group">
+          <label>Mot de passe</label>
+          <input type="password" id="employe-password" required placeholder="••••••••">
+        </div>
+        <button type="submit" class="btn" style="width: 100%;">Se connecter (Employé)</button>
+      </form>
+
+      <!-- Formulaire Employeur (manager) -->
+      <form id="employeur-form" class="login-form">
+        <div class="form-group">
+          <label>Email</label>
+          <input type="email" id="employeur-email" required placeholder="manager@exemple.com">
+        </div>
+        <div class="form-group">
+          <label>Mot de passe</label>
+          <input type="password" id="employeur-password" required placeholder="••••••••">
+        </div>
+        <button type="submit" class="btn" style="width: 100%;">Se connecter (Employeur)</button>
+      </form>
+
+      <div style="text-align: center; margin-top: 2rem;">
+        <a href="index.html" style="color: #6f4e37;">← Retour à l'accueil</a>
+      </div>
+    </div>
+  </div>
+
+  <script src="assets/js/app.js"></script>
+</body>
+</html>
+
 

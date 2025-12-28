@@ -1,1 +1,42 @@
 
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Réserver une table — GROW-UP</title>
+  <link rel="stylesheet" href="assets/css/app.css">
+</head>
+<body>
+  <header class="container" style="padding-top:1rem;padding-bottom:1rem">
+    <a href="accueil.html" class="logo">☕ GROW-UP Coffee</a>
+  </header>
+
+  <main class="container">
+    <div class="card">
+      <h2>Réserver une table</h2>
+      <p class="small text-muted">Choisissez la date et l'heure souhaitées.</p>
+
+      <label>Date et heure</label>
+      <input type="datetime-local" id="reserve-datetime">
+      <label>Nombre de personnes</label>
+      <input type="number" id="reserve-persons" min="1" value="2">
+      <label>Notes (optionnel)</label>
+      <input type="text" id="reserve-details" placeholder="Remarques pour la réservation">
+      <button id="reserve-btn" class="btn" style="margin-top:0.8rem">Réserver</button>
+    </div>
+
+    <div class="card" style="margin-top:1rem">
+      <h3>Mes réservations</h3>
+      <table id="my-reservations-table">
+        <thead><tr><th>ID</th><th>Date</th><th>Détails</th></tr></thead>
+        <tbody></tbody>
+      </table>
+    </div>
+
+    <p style="margin-top:1rem"><a href="accueil.html">← Retour à l'accueil</a></p>
+  </main>
+
+  <script src="assets/js/app.js"></script>
+</body>
+</html>

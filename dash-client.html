@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tableau de bord Client — Little Bean</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/app.css">
+  <style>
+    /* small local overrides to use app.css variables */
+    .dashboard-header{background:var(--hero-bg);color:#fff;padding:2rem 0;margin-bottom:2rem;box-shadow:inset 0 -20px 40px rgba(0,0,0,0.06)}
+    .dashboard-nav button{border:2px solid rgba(255,255,255,0.18);background:transparent;color:#fff}
+    .dashboard-nav button.active{background:#fff;color:var(--brand)}
+    .reservation-card,.order-card,.reclamation-card{background:var(--card);border-radius:12px;padding:1.5rem;margin-bottom:1rem;box-shadow:0 6px 18px rgba(0,0,0,0.06)}
+    .reservation-card h3,.order-card h3{color:var(--brand);margin-bottom:0.5rem}
+    .status.confirme{background:#4caf50;color:#fff}
+    .status.en-attente{background:#ff9800;color:#fff}
+    .status.annule{background:#f44336;color:#fff}
+    .total-box{background:var(--brand);color:#fff;padding:1.2rem;border-radius:10px;text-align:center;margin-top:1rem}
+  </style>
+</head>
+<body>
+  <!-- Header -->
+  <header>
+    <div class="container">
+      <div class="header-content">
+        <a href="index.html" class="logo">
+          <div class="logo-icon">☕</div>
+          <span>Little Bean</span>
+        </a>
+        <nav class="desktop-nav">
+          <ul>
+            <li><a href="index.html">Accueil</a></li>
+            <li><a href="menu.html">Menu</a></li>
+            <li><a href="#" onclick="logout()">Déconnexion</a></li>
+          </ul>
+        </nav>
+      </div>
+    </div>
+  </header>
+
+  <div class="dashboard-header">
+    <div class="container">
+      <h1>Tableau de bord Client</h1>
+      <p id="welcome-message">Bienvenue, <span id="client-name"></span> !</p>
+      <div class="dashboard-nav">
+        <button class="nav-btn active" data-section="reservations">Mes Réservations</button>
+        <button class="nav-btn" data-section="nouvelle-reservation">Réserver une table</button>
+        <button class="nav-btn" data-section="commandes">Mes Commandes</button>
+        <button class="nav-btn" data-section="reclamations">Réclamations</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="container section">
+    <!-- Section Réservations -->
+    <div id="reservations" class="dashboard-section active">
+      <h2>Mes Réservations</h2>
+      <div id="reservations-list">
+        <!-- Les réservations seront affichées ici -->
+      </div>
+    </div>
+
+    <!-- Section Nouvelle Réservation -->
+    <div id="nouvelle-reservation" class="dashboard-section">
+      <h2>Réserver une table</h2>
+      <div class="card">
+        <form id="reservation-form">
+          <div class="form-group">
+            <label>Date</label>
+            <input type="date" id="reservation-date" required>
+          </div>
+          <div class="form-group">
+            <label>Heure</label>
+            <input type="time" id="reservation-time" required>
+          </div>
+          <div class="form-group">
+            <label>Nombre de personnes</label>
+            <input type="number" id="reservation-guests" min="1" max="10" required>
+          </div>
+          <div class="form-group">
+            <label>Notes spéciales (optionnel)</label>
+            <textarea id="reservation-notes" rows="3"></textarea>
+          </div>
+          <button type="submit" class="btn">Réserver</button>
+        </form>
+      </div>
+    </div>
+
+    <!-- Section Commandes -->
+    <div id="commandes" class="dashboard-section">
+      <h2>Mes Commandes</h2>
+      <div id="orders-list">
+        <!-- Les commandes seront affichées ici -->
+      </div>
+      <div id="nouvelle-commande" class="card" style="margin-top: 2rem;">
+        <h3>Passer une commande</h3>
+        <div id="menu-items">
+          <div class="order-item">
+            <span>Espresso</span>
+            <div>
+              <input type="number" min="0" value="0" data-item="Espresso" data-price="15" class="item-quantity" style="width: 60px; padding: 0.5rem;">
+              <span>15 MAD</span>
+            </div>
+          </div>
+          <div class="order-item">
+            <span>Cappuccino</span>
+            <div>
+              <input type="number" min="0" value="0" data-item="Cappuccino" data-price="22" class="item-quantity" style="width: 60px; padding: 0.5rem;">
+              <span>22 MAD</span>
+            </div>
+          </div>
+          <div class="order-item">
+            <span>Latte</span>
+            <div>
+              <input type="number" min="0" value="0" data-item="Latte" data-price="24" class="item-quantity" style="width: 60px; padding: 0.5rem;">
+              <span>24 MAD</span>
+            </div>
+          </div>
+          <div class="order-item">
+            <span>Croissant</span>
+            <div>
+              <input type="number" min="0" value="0" data-item="Croissant" data-price="12" class="item-quantity" style="width: 60px; padding: 0.5rem;">
+              <span>12 MAD</span>
+            </div>
+          </div>
+          <div class="order-item">
+            <span>Banana Bread</span>
+            <div>
+              <input type="number" min="0" value="0" data-item="Banana Bread" data-price="18" class="item-quantity" style="width: 60px; padding: 0.5rem;">
+              <span>18 MAD</span>
+            </div>
+          </div>
+          <div class="order-item">
+            <span>Muffin Chocolat</span>
+            <div>
+              <input type="number" min="0" value="0" data-item="Muffin Chocolat" data-price="16" class="item-quantity" style="width: 60px; padding: 0.5rem;">
+              <span>16 MAD</span>
+            </div>
+          </div>
+        </div>
+        <div class="total-box">
+          <h2>Total à payer: <span id="order-total">0</span> MAD</h2>
+        </div>
+        <button type="button" class="btn" id="place-order-btn" style="width: 100%; margin-top: 1rem;">Passer la commande</button>
+      </div>
+    </div>
+
+    <!-- Section Réclamations -->
+    <div id="reclamations" class="dashboard-section">
+      <h2>Mes Réclamations</h2>
+      <div id="reclamations-list">
+        <!-- Les réclamations seront affichées ici -->
+      </div>
+      <div class="card" style="margin-top: 2rem;">
+        <h3>Nouvelle réclamation</h3>
+        <form id="reclamation-form">
+          <div class="form-group">
+            <label>Sujet</label>
+            <input type="text" id="reclamation-subject" required placeholder="Sujet de la réclamation">
+          </div>
+          <div class="form-group">
+            <label>Description</label>
+            <textarea id="reclamation-description" rows="5" required placeholder="Décrivez votre réclamation..."></textarea>
+          </div>
+          <button type="submit" class="btn">Envoyer la réclamation</button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <script src="assets/js/script.js"></script>
+  <script>
+    // Vérifier si l'utilisateur est connecté
+    const user = JSON.parse(localStorage.getItem('user') || '{}');
+    if (!user.email || user.type !== 'client') {
+      window.location.href = 'connexion.html';
+    } else {
+      document.getElementById('client-name').textContent = user.name || user.email;
+    }
+
+    // Navigation entre les sections
+    document.querySelectorAll('.nav-btn').forEach(btn => {
+      btn.addEventListener('click', function() {
+        const section = this.dataset.section;
+        
+        // Mettre à jour les boutons actifs
+        document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+        this.classList.add('active');
+        
+        // Afficher la bonne section
+        document.querySelectorAll('.dashboard-section').forEach(s => s.classList.remove('active'));
+        document.getElementById(section).classList.add('active');
+        
+        // Charger les données si nécessaire
+        if (section === 'reservations') loadReservations();
+        if (section === 'commandes') loadOrders();
+        if (section === 'reclamations') loadReclamations();
+      });
+    });
+
+    // Charger les réservations
+    function loadReservations() {
+      const reservations = JSON.parse(localStorage.getItem('reservations') || '[]');
+      const userReservations = reservations.filter(r => r.clientEmail === user.email);
+      const container = document.getElementById('reservations-list');
+      
+      if (userReservations.length === 0) {
+        container.innerHTML = '<div class="empty-state"><div class="empty-state-icon">📅</div><p>Aucune réservation pour le moment</p></div>';
+      } else {
+        container.innerHTML = userReservations.map(r => `
+          <div class="reservation-card">
+            <h3>Réservation #${r.id}</h3>
+            <p><strong>Date:</strong> ${r.date} à ${r.time}</p>
+            <p><strong>Nombre de personnes:</strong> ${r.guests}</p>
+            ${r.notes ? `<p><strong>Notes:</strong> ${r.notes}</p>` : ''}
+            <span class="status ${r.status}">${r.status}</span>
+          </div>
+        `).join('');
+      }
+    }
+
+    // Formulaire de réservation
+    document.getElementById('reservation-form').addEventListener('submit', function(e) {
+      e.preventDefault();
+      const reservations = JSON.parse(localStorage.getItem('reservations') || '[]');
+      const newReservation = {
+        id: Date.now(),
+        clientEmail: user.email,
+        date: document.getElementById('reservation-date').value,
+        time: document.getElementById('reservation-time').value,
+        guests: document.getElementById('reservation-guests').value,
+        notes: document.getElementById('reservation-notes').value,
+        status: 'en-attente',
+        createdAt: new Date().toISOString()
+      };
+      reservations.push(newReservation);
+      localStorage.setItem('reservations', JSON.stringify(reservations));
+      alert('Réservation créée avec succès !');
+      this.reset();
+      loadReservations();
+      document.querySelector('[data-section="reservations"]').click();
+    });
+
+    // Calculer le total de la commande
+    function updateOrderTotal() {
+      let total = 0;
+      document.querySelectorAll('.item-quantity').forEach(input => {
+        const quantity = parseInt(input.value) || 0;
+        const price = parseFloat(input.dataset.price);
+        total += quantity * price;
+      });
+      document.getElementById('order-total').textContent = total.toFixed(2);
+    }
+
+    document.querySelectorAll('.item-quantity').forEach(input => {
+      input.addEventListener('change', updateOrderTotal);
+    });
+
+    // Passer une commande
+    document.getElementById('place-order-btn').addEventListener('click', function() {
+      const items = [];
+      let total = 0;
+      document.querySelectorAll('.item-quantity').forEach(input => {
+        const quantity = parseInt(input.value) || 0;
+        if (quantity > 0) {
+          const price = parseFloat(input.dataset.price);
+          items.push({
+            name: input.dataset.item,
+            quantity: quantity,
+            price: price
+          });
+          total += quantity * price;
+        }
+      });
+
+      if (items.length === 0) {
+        alert('Veuillez sélectionner au moins un article');
+        return;
+      }
+
+      const orders = JSON.parse(localStorage.getItem('orders') || '[]');
+      const newOrder = {
+        id: Date.now(),
+        clientEmail: user.email,
+        items: items,
+        total: total,
+        status: 'en-attente',
+        createdAt: new Date().toISOString()
+      };
+      orders.push(newOrder);
+      localStorage.setItem('orders', JSON.stringify(orders));
+      alert('Commande passée avec succès ! Total: ' + total.toFixed(2) + ' MAD');
+      
+      // Réinitialiser les quantités
+      document.querySelectorAll('.item-quantity').forEach(input => input.value = 0);
+      updateOrderTotal();
+      loadOrders();
+    });
+
+    // Charger les commandes
+    function loadOrders() {
+      const orders = JSON.parse(localStorage.getItem('orders') || '[]');
+      const userOrders = orders.filter(o => o.clientEmail === user.email);
+      const container = document.getElementById('orders-list');
+      
+      if (userOrders.length === 0) {
+        container.innerHTML = '<div class="empty-state"><div class="empty-state-icon">🛒</div><p>Aucune commande pour le moment</p></div>';
+      } else {
+        container.innerHTML = userOrders.map(o => `
+          <div class="order-card">
+            <h3>Commande #${o.id}</h3>
+            <p><strong>Date:</strong> ${new Date(o.createdAt).toLocaleString('fr-FR')}</p>
+            <div style="margin: 1rem 0;">
+              ${o.items.map(item => `<p>${item.name} x${item.quantity} = ${(item.quantity * item.price).toFixed(2)} MAD</p>`).join('')}
+            </div>
+            <p><strong>Total:</strong> ${o.total.toFixed(2)} MAD</p>
+            <span class="status ${o.status}">${o.status}</span>
+          </div>
+        `).join('');
+      }
+    }
+
+    // Charger les réclamations
+    function loadReclamations() {
+      const reclamations = JSON.parse(localStorage.getItem('reclamations') || '[]');
+      const userReclamations = reclamations.filter(r => r.clientEmail === user.email);
+      const container = document.getElementById('reclamations-list');
+      
+      if (userReclamations.length === 0) {
+        container.innerHTML = '<div class="empty-state"><div class="empty-state-icon">📝</div><p>Aucune réclamation pour le moment</p></div>';
+      } else {
+        container.innerHTML = userReclamations.map(r => `
+          <div class="reclamation-card">
+            <h3>${r.subject}</h3>
+            <p>${r.description}</p>
+            <p style="color: #8b7355; font-size: 0.875rem; margin-top: 0.5rem;">
+              ${new Date(r.createdAt).toLocaleString('fr-FR')}
+            </p>
+            <span class="status ${r.status || 'en-attente'}">${r.status || 'en-attente'}</span>
+          </div>
+        `).join('');
+      }
+    }
+
+    // Formulaire de réclamation
+    document.getElementById('reclamation-form').addEventListener('submit', function(e) {
+      e.preventDefault();
+      const reclamations = JSON.parse(localStorage.getItem('reclamations') || '[]');
+      const newReclamation = {
+        id: Date.now(),
+        clientEmail: user.email,
+        subject: document.getElementById('reclamation-subject').value,
+        description: document.getElementById('reclamation-description').value,
+        status: 'en-attente',
+        createdAt: new Date().toISOString()
+      };
+      reclamations.push(newReclamation);
+      localStorage.setItem('reclamations', JSON.stringify(reclamations));
+      alert('Réclamation envoyée avec succès !');
+      this.reset();
+      loadReclamations();
+    });
+
+    // Fonction de déconnexion
+    function logout() {
+      localStorage.removeItem('user');
+      window.location.href = 'index.html';
+    }
+
+    // Charger les données initiales
+    loadReservations();
+  </script>
+</body>
+</html>
+

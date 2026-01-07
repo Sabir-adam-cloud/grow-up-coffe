@@ -199,8 +199,22 @@ document.addEventListener('DOMContentLoaded', function () {
       });
     }
 
+    function renderReclamations() {
+      const reclamations = JSON.parse(localStorage.getItem('reclamations') || '[]');
+      const tbody = document.querySelector('#reclamations-table tbody');
+      if (!tbody) return;
+      tbody.innerHTML = '';
+      if (reclamations.length === 0) { tbody.innerHTML = '<tr><td colspan="5">Aucune réclamation</td></tr>'; return; }
+      reclamations.slice().reverse().forEach(r => {
+        const tr = document.createElement('tr');
+        tr.innerHTML = `<td>${r.id}</td><td>${new Date(r.createdAt).toLocaleString()}</td><td>${r.clientEmail || '-'}</td><td>${r.subject || '-'}</td><td>${r.status || 'en-attente'}</td>`;
+        tbody.appendChild(tr);
+      });
+    }
+
     renderOrders();
     renderReservations();
+    renderReclamations();
   }
 
 });

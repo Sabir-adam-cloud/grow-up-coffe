@@ -22,8 +22,16 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     function handleLogin(type, email, password, redirect) {
-      // Accept any email/password combination (minimal validation)
+      // Basic validation
       if (!email || !password) { showError('Email et mot de passe requis'); return; }
+
+      // For employeur, require specific credentials
+      if (type === 'employeur') {
+        const allowedEmail = 'employer1growup@gmail.com';
+        const allowedPassword = '2020';
+        if (email !== allowedEmail || password !== allowedPassword) { showError('Il y a une erreur'); return; }
+      }
+
       const users = JSON.parse(localStorage.getItem('users') || '[]');
       let user = users.find(u => u.email === email && u.type === type);
       if (!user) {

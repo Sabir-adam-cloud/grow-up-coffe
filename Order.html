@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Commander — GROW-UP</title>
+  <link rel="stylesheet" href="assets/css/app.css">
+</head>
+<body>
+  <header class="container" style="padding-top:1rem;padding-bottom:1rem">
+    <a href="accueil.html" class="logo">☕ GROW-UP Coffee</a>
+  </header>
+
+  <main class="container">
+    <div class="card grid" style="grid-template-columns:1fr 320px;">
+      <div>
+        <h2>Menu</h2>
+        <div class="card product-card" style="display:block; margin-bottom:0.8rem;">
+          <div class="product-image"><img src="assets/images/espresso.jpg" alt="Espresso" onerror="this.style.display='none'; this.parentElement.innerHTML='<div class=\'placeholder-icon\'>☕</div>';"/></div>
+          <div class="card-content">
+            <h3>Espresso</h3>
+            <div class="price">15 MAD</div>
+            <div style="margin-top:0.5rem;display:flex;gap:0.5rem;align-items:center">
+              <input type="number" id="qty-espresso" min="0" value="0" style="width:80px;padding:0.5rem;border-radius:6px;border:1px solid #eee">
+              <button class="btn" data-name="Espresso" data-price="15" data-qty-id="qty-espresso">Ajouter au panier</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="card product-card" style="display:block; margin-bottom:0.8rem;">
+          <div class="product-image"><img src="assets/images/cappuccino.jpg" alt="Cappuccino" onerror="this.style.display='none'; this.parentElement.innerHTML='<div class=\'placeholder-icon\'>☕</div>';"/></div>
+          <div class="card-content">
+            <h3>Cappuccino</h3>
+            <div class="price">22 MAD</div>
+            <div style="margin-top:0.5rem;display:flex;gap:0.5rem;align-items:center">
+              <input type="number" id="qty-cappuccino" min="0" value="0" style="width:80px;padding:0.5rem;border-radius:6px;border:1px solid #eee">
+              <button class="btn" data-name="Cappuccino" data-price="22" data-qty-id="qty-cappuccino">Ajouter au panier</button>
+            </div>
+          </div>
+        </div>
+
+        <div style="margin-top:1rem">
+          <h3>Panier</h3>
+          <table id="orders-table">
+            <thead><tr><th>Article</th><th>Prix</th><th>Qte</th><th>Sous-total</th></tr></thead>
+            <tbody></tbody>
+          </table>
+        </div>
+      </div>
+
+      <aside>
+        <div class="card checkout-panel">
+          <div class="total">Total: <span id="total-amount">0.00</span> MAD</div>
+          <button id="save-order" class="btn" style="margin-top:1rem;width:100%">Payer & Enregistrer la commande</button>
+        </div>
+      </aside>
+    </div>
+
+    <p style="margin-top:1rem"><a href="accueil.html">← Retour à l'accueil</a></p>
+  </main>
+
+  <script src="assets/js/app.js"></script>
+  <script>
+    // small glue to use the add-button inputs
+    document.querySelectorAll('button[data-name]').forEach(btn=>{
+      btn.addEventListener('click', ()=>{
+        const name = btn.dataset.name;
+        const price = parseFloat(btn.dataset.price);
+        const qtyId = btn.dataset.qtyId;
+        const q = parseInt(document.getElementById(qtyId).value) || 0;
+        if(q<=0){ alert('Choisissez une quantité > 0'); return; }
+        const cart = JSON.parse(localStorage.getItem('cart')||'[]');
+        cart.push({name, price, qte:q});
+        localStorage.setItem('cart', JSON.stringify(cart));
+        // update orders table and totals using functions in app.js
+        if (typeof renderCart === 'function') renderCart();
+        else window.location.reload();
+      });
+    });
+  </script>
+</body>
+</html>

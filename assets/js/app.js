@@ -66,7 +66,21 @@ document.addEventListener('DOMContentLoaded', function () {
     }
   }
 
- 
+   // Employee-side render functions for orders and reservations
+    function renderEmployeeOrders(){
+      const orders = JSON.parse(localStorage.getItem('orders') || '[]');
+      const tbody = document.querySelector('#employee-orders-table tbody');
+      if(!tbody) return;
+      tbody.innerHTML = '';
+      if(orders.length === 0){ tbody.innerHTML = '<tr><td colspan="3">Aucune commande</td></tr>'; return; }
+      orders.slice().reverse().forEach(o=>{
+        const tr=document.createElement('tr');
+        const date=new Date(o.createdAt).toLocaleString();
+        const items = o.items.map(i=>`${i.name}×${i.qte}`).join(', ');
+        tr.innerHTML = `<td>${o.id}</td><td>${date}</td><td>${items}</td>`;
+        tbody.appendChild(tr);
+      });
+    }
     function renderEmployeeReservations(){
       const res = JSON.parse(localStorage.getItem('reservations') || '[]');
       const tbody = document.querySelector('#my-reservations-table tbody');

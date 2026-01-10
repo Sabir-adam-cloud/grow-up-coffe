@@ -66,43 +66,7 @@ document.addEventListener('DOMContentLoaded', function () {
     }
   }
 
-  // --- Dash Employé logic ---
-  if (document.getElementById('add-order')) {
-    const ordersKey = 'orders';
-    function loadCart() { return JSON.parse(localStorage.getItem('cart') || '[]'); }
-    function saveCart(cart) { localStorage.setItem('cart', JSON.stringify(cart)); }
-    function renderCart() {
-      const cart = loadCart();
-      const tbody = document.querySelector('#orders-table tbody');
-      if (!tbody) return;
-      tbody.innerHTML = '';
-      let total = 0;
-      cart.forEach(it => {
-        const tr = document.createElement('tr');
-        const subtotal = (it.price * it.qte);
-        total += subtotal;
-        tr.innerHTML = `<td>${it.name}</td><td>${it.price.toFixed(2)}</td><td>${it.qte}</td><td>${subtotal.toFixed(2)}</td>`;
-        tbody.appendChild(tr);
-      });
-      const el = document.getElementById('total-amount'); if (el) el.textContent = total.toFixed(2);
-    }
-
-    // Employee-side render functions for orders and reservations
-    function renderEmployeeOrders(){
-      const orders = JSON.parse(localStorage.getItem('orders') || '[]');
-      const tbody = document.querySelector('#employee-orders-table tbody');
-      if(!tbody) return;
-      tbody.innerHTML = '';
-      if(orders.length === 0){ tbody.innerHTML = '<tr><td colspan="3">Aucune commande</td></tr>'; return; }
-      orders.slice().reverse().forEach(o=>{
-        const tr=document.createElement('tr');
-        const date=new Date(o.createdAt).toLocaleString();
-        const items = o.items.map(i=>`${i.name}×${i.qte}`).join(', ');
-        tr.innerHTML = `<td>${o.id}</td><td>${date}</td><td>${items}</td>`;
-        tbody.appendChild(tr);
-      });
-    }
-
+ 
     function renderEmployeeReservations(){
       const res = JSON.parse(localStorage.getItem('reservations') || '[]');
       const tbody = document.querySelector('#my-reservations-table tbody');
